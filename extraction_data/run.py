@@ -3,7 +3,7 @@ import os
 import zipfile
 import requests
 from io import BytesIO
-from google.cloud import storage
+from google.cloud.storage import Blob
 
 # Cria um diretório para armazenar o conteúdo do enade
 os.makedirs('../data/educ_superior', exist_ok=True)
