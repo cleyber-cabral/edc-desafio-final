@@ -1,0 +1,34 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: job-pyspark
+  namespace: processing
+spec:
+  type: Java
+  mode: cluster
+  image: gcr.io/ynli-k8s/spark:v2.3.0-gcs
+  imagePullPolicy: Always
+  hadoopConf:
+    "fs.gs.project.id": "edc-desafio-igti"
+    "fs.gs.system.bucket": "desafio-igti"
+    "google.cloud.auth.service.account.enable": "true"
+    "google.cloud.auth.service.account.json.keyfile": "../../config"
+  driver:
+    cores: 1
+    secrets:
+    - name: "gcs-bq"
+      path: "/mnt/secrets"
+      secretType: GCPServiceAccount
+    envVars:
+      GCS_PROJECT_ID: edc-desafio-igti
+    serviceAccount: spark
+  executor:
+    instances: 2
+    cores: 1
+    memory: "512m"
+    secrets:
+    - name: "gcs-bq"
+      path: "../../config/edc-desafio-igti-32c40cffbfdd.json"
+      secretType: GCPServiceAccount
+    envVars:
+      GCS_PROJECT_ID: edc-desafio-igti
