@@ -19,7 +19,7 @@ filebytes = BytesIO(requests.get(url).content)
 print("Unzip files...")
 # Extrai o conteúdo do zipfile
 myzip = zipfile.ZipFile(filebytes)
-myzip.extractall('../data/educ_superior')
+myzip.extractall(base_path)
 
 
 print("Upload to GCS...")

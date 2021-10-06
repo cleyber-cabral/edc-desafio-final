@@ -1,8 +1,8 @@
-resource "google_storage_bucket" "store"{
-  name          = var.name
-  location      = "US"
-  force_destroy = true
+# resource "google_storage_bucket" "store"{
+#   name          = var.name
+#   location      = "US"
+#   force_destroy = true
 
-  uniform_bucket_level_access = true
-}
+#   uniform_bucket_level_access = true
+# }
 
