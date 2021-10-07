@@ -17,16 +17,33 @@ spec:
     onFailureRetryInterval: 10
     onSubmissionFailureRetries: 5
     onSubmissionFailureRetryInterval: 20
+  hadoopConf:
+    "fs.gs.project.id": "edc-desafio-igti"
+    "fs.gs.system.bucket": "desafio-igti"
+    "google.cloud.auth.service.account.enable": "true"
+    "google.cloud.auth.service.account.json.keyfile": "../../config"
   driver:
     cores: 1
     coreLimit: "1200m"
     memory: "4g"
+    secrets:
+    - name: "gcs-bq"
+      path: "/mnt/secrets"
+      secretType: GCPServiceAccount
+    envVars:
+      GCS_PROJECT_ID: edc-desafio-igti
+    serviceAccount: spark
     labels:
       version: 3.1.1
-    serviceAccount: spark
   executor:
     cores: 3
-    instances: 3
     memory: "4g"
+    secrets:
+    - name: "gcs-bq"
+      path: "../../config/edc-desafio-igti-32c40cffbfdd.json"
+      secretType: GCPServiceAccount
+    envVars:
+      GCS_PROJECT_ID: edc-desafio-igti
+    instances: 3
     labels:
       version: 3.1.1
