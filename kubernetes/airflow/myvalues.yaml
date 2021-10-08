@@ -81,7 +81,7 @@ airflow:
       valueFrom:
         secretKeyRef:
           name: airflow-cluster1-fernet-key
-          key: '0Gps5Krpd92bk7le-8H5RxuTSIRp4IFIBFygOoSWJPY='
+          key: value
 
 ###################################
 # Airflow - Scheduler Configs
@@ -166,7 +166,7 @@ workers:
   podDisruptionBudget:
     ## if a PodDisruptionBudget resource is created for the worker StatefulSet
     ##
-    enabled: true
+    enabled: false
 
     ## the maximum unavailable pods/percentage for the worker StatefulSet
     ##
@@ -180,7 +180,7 @@ workers:
   ##
   autoscaling:
     enabled: true
-    maxReplicas: 8
+    maxReplicas: 5
     metrics:
     - type: Resource
       resource:
@@ -233,16 +233,16 @@ flower:
     loadBalancerIP: ""
     loadBalancerSourceRanges: []
 
-# ###################################
-# # Airflow - Logs Configs
-# ###################################
-# logs:
-#   ## configs for the logs PVC
-#   ##
-#   persistence:
-#     ## if a persistent volume is mounted at `logs.path`
-#     ##
-#     enabled: false
+###################################
+# Airflow - Logs Configs
+###################################
+logs:
+  ## configs for the logs PVC
+  ##
+  persistence:
+    ## if a persistent volume is mounted at `logs.path`
+    ##
+    enabled: false
 
 ###################################
 # Airflow - DAGs Configs
@@ -273,11 +273,11 @@ dags:
 
     ## the name of a pre-created Secret with git ssh credentials
     ##
-    # sshSecret: "airflow-cluster1-git-secret"
+    sshSecret: "airflow-cluster1-git-secret"
 
     ## the key in `dags.gitSync.sshSecret` with your ssh-key file
     ##
-    # sshSecretKey: id_rsa
+    sshSecretKey: id_rsa
 
     ## resource requests/limits for the git-sync container
     ##

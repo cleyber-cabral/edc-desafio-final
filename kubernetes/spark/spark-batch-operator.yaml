@@ -1,7 +1,7 @@
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
-  name: job-pyspark-2
+  name: job-pyspark
   namespace: processing
 spec:
   type: Python
@@ -18,22 +18,19 @@ spec:
     "google.cloud.auth.service.account.json.keyfile": google-credential
 
   driver:
+    envSecretKeyRefs:
+      GOOGLE_APPLICATION_CREDENTIALS:
+        name: gcp-credentials
+        key: google-credential
     cores: 1
     memory: "4g"
     coreLimit: "1200m"
-    envVars:
-      GCS_PROJECT_ID: edc-desafio-igti
+
+  executor:
     envSecretKeyRefs:
-      GCP_Account:
+      GOOGLE_APPLICATION_CREDENTIALS:
         name: gcp-credentials
         key: google-credential
-  executor:
     instances: 3
     cores: 3
     memory: "4g"
-    envVars:
-      GCS_PROJECT_ID: edc-desafio-igti
-    envSecretKeyRefs:
-      GCP_Account:
-        name: gcp-credentials
-        key: google-credential

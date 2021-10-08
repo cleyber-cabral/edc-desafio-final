@@ -40,10 +40,10 @@ airflowHome: /opt/airflow
 defaultAirflowRepository: apache/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "2.1.2"
+defaultAirflowTag: "2.1.4"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
-airflowVersion: "2.1.2"
+airflowVersion: "2.1.4"
 
 # Images
 images:
@@ -195,6 +195,7 @@ airflowLocalSettings: |-
 rbac:
   # Specifies whether RBAC resources should be created
   create: true
+  createSCCRoleBinding: false
 
 # Airflow executor
 # Options: LocalExecutor, CeleryExecutor, KubernetesExecutor, CeleryKubernetesExecutor
@@ -307,7 +308,7 @@ data:
 
 # Fernet key settings
 # Note: fernetKey can only be set during install, not upgrade
-fernetKey: "0Gps5Krpd92bk7le-8H5RxuTSIRp4IFIBFygOoSWJPY="
+fernetKey: "RTNpejJaSHZwR05TRXNaU20zRWlvaFNtaFlJM1RLU1Q="
 fernetKeySecretName: ~
 
 # Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
@@ -421,7 +422,7 @@ workers:
 
   persistence:
     # Enable persistent volumes
-    enabled: true
+    enabled: false
     # Volume size for worker StatefulSet
     size: 100Gi
     # If using a custom storageClass, pass name ref to all statefulSets here
@@ -490,6 +491,8 @@ workers:
   # - ip: "127.0.0.3"
   #   hostnames:
   #   - "test.hostname.two"
+
+  # podAnnotations: {}
 
   logGroomerSidecar:
     # Command to use when running the Airflow worker log groomer sidecar (templated).
@@ -584,6 +587,8 @@ scheduler:
             topologyKey: "kubernetes.io/hostname"
   tolerations: []
 
+  # podAnnotations: {}
+
   logGroomerSidecar:
     # Whether to deploy the Airflow scheduler log groomer sidecar.
     enabled: true
@@ -600,6 +605,7 @@ scheduler:
     #  requests:
     #   cpu: 100m
     #   memory: 128Mi
+
 # Airflow create user job settings
 createUserJob:
   # Annotations on the create user job pod
@@ -705,8 +711,8 @@ webserver:
   defaultUser:
     enabled: true
     role: Admin
-    username: cleybercabral
-    email: cleyber.cabral@gmail.com
+    username: cleyber
+    email: admin@example.com
     firstName: Cleyber
     lastName: Cabral
     password: admin
@@ -767,6 +773,8 @@ webserver:
                 component: webserver
             topologyKey: "kubernetes.io/hostname"
   tolerations: []
+
+  # podAnnotations: {}
 
 # Airflow Triggerer Config
 triggerer:
@@ -839,6 +847,8 @@ triggerer:
                 component: triggerer
             topologyKey: "kubernetes.io/hostname"
   tolerations: []
+
+  # podAnnotations: {}
 
 # Flower settings
 flower:
@@ -920,6 +930,8 @@ flower:
   nodeSelector: {}
   affinity: {}
   tolerations: []
+
+  # podAnnotations: {}
 
 # Statsd settings
 statsd:
@@ -1343,7 +1355,7 @@ dags:
     #     # key needs to be gitSshKey
     #     gitSshKey: <base64_encoded_data>
     # and specify the name of the secret below
-    # sshKeySecret: airflow-ssh-secret
+    sshKeySecret: airflow-git-secret
     #
     # If you are using an ssh private key, you can additionally
     # specify the content of your known_hosts file, example:
