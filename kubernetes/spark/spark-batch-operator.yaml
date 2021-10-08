@@ -4,12 +4,13 @@ metadata:
   name: job-pyspark-2
   namespace: processing
 spec:
-  type: Java
+  type: Python
+  pythonVersion: "3"  
   mode: cluster
-  image: docker.io/cleyber/spark-operator:v2.3.0-gcp
+  image: docker.io/cleyber/spark-operator:v3.0.0-gcp
   imagePullPolicy: Always
   mainApplicationFile: gs://edc-scripts/converte_parquet.py
-  sparkVersion: "2.3.0"
+  sparkVersion: "3.0.0"
   hadoopConf:
     "fs.gs.project.id": "edc-desafio-igti"
     "fs.gs.system.bucket": "desafio-igti"
